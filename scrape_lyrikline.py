@@ -1,29 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
+import datetime
+import csv
 
-lyrikline_de = "https://www.lyrikline.org/de/gedichte?query=&lang%5B%5D=de&listitems=100"
+#end_page_num = 26
 
-page = requests.get(lyrikline_de, timeout=5)
+lyrikline_de = "https://www.lyrikline.org/de/gedichte?query=&lang%5B%5D=de&listitems=100&page="
+
+page = requests.get(lyrikline_de)
 soup = BeautifulSoup(page.content, 'html.parser')
 
-#for page_number in range(1,10):
-    
-    # To form the url based on page numbers
-#    url = lyrikline_de+"&page="+str(page_number)
-#    r = requests.get(url)
-#    soup = BeautifulSoup(r.content, "html.parser")
-
-# To extract the results
-#lyrik_list = soup.find_all("ul", class_="liste clearfix")
-#lyrik_list_items = lyrik_list.find_all("li")
-#lyrik_list_links = soup.find_all('a', class_="row")
-
-results = soup.find("ul", { "class" : "liste clearfix" }).findAll("li", recursive=False)
-
+#Get links to Lyrics
+results = soup.find("ul", class_="liste clearfix").findAll("li", recursive=False)
 lyrik_links = []  
 for result in results:  
-    links = result.find('a', { "class" : "row" })
-    print links.get('href')
-    #lyrik_links.append(links)
+    links = result.find('a', class_="row")
+    lyrik_links.append(links.get('href'))
+lyrik_links = ["https://www.lyrikline.org" + x for x in lyrik_links]
 
-#print(type(lyrik_links))
+print(lyrik_links)
