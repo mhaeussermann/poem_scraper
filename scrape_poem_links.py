@@ -10,7 +10,7 @@ s = requests.Session()
 s.get(setitems100)
 
 # Maximum pages
-num_max = 4
+num_max = 26
 
 # Empty list for the links
 lyrik_links = []
@@ -33,8 +33,8 @@ lyrik_links = ['https://www.lyrikline.org' + x for x in lyrik_links]
 
 # Test print
 #print(lyrik_links)
-#print(len(lyrik_links))
+print(len(lyrik_links))
 
-# Save the poem url list in a csv file
+# Export the poem url list as a text file
 with open('poem_links.csv', 'wb') as fp:
     pickle.dump(lyrik_links, fp)
