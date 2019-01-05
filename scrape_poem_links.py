@@ -10,7 +10,7 @@ s = requests.Session()
 s.get(setitems100)
 
 # Maximum pages
-num_max = 26
+num_max = 27
 
 # Empty list for the links
 lyrik_links = []
