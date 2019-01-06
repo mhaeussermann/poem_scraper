@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pickle
 import os
+import csv
 
 # import poem url list
 with open ('poem_links.csv', 'rb') as fp:
@@ -16,14 +17,14 @@ try:
 except OSError:
     pass
 
-
 # Testfall
-test = lyrik_links[0:5]
+lyrik_links = lyrik_links[0:10]
 # print(test)
 # loop through items in list
-for i in range(0, len(test), 1):
+for i in range(0, len(lyrik_links), 1):
 # scrape urls from poem url list
-    r = requests.get(test[i])
+    print("Extracting poem - " + str(i+1) + "/" + str(len(lyrik_links)))
+    r = requests.get(lyrik_links[i])
     soup = BeautifulSoup(r.content, 'html.parser')
 # extract author (h1 id="gedicht-autor")
     author = soup.find(id='gedicht-autor')
@@ -35,6 +36,8 @@ for i in range(0, len(test), 1):
     #print(p_title)
 # extract text of poem (div class="gedicht-originaltext clearfix ")
     poem_text = soup.find(class_='gedicht-originaltext clearfix')
+    for br in poem_text.find_all("br"):
+        br.replace_with("\n" + br.text)
     p_text = poem_text.text
     #print(p_text)
 # name file as 'author - title' and save poem text in file
