@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import pickle
 import os
 import csv
+from time import sleep
+import sys
 
 # import poem url list
 with open ('poem_links.csv', 'rb') as fp:
@@ -18,12 +20,12 @@ except OSError:
     pass
 
 # Testfall
-lyrik_links = lyrik_links[0:10]
+lyrik_links = lyrik_links[0:15]
 # print(test)
 # loop through items in list
 for i in range(0, len(lyrik_links), 1):
 # scrape urls from poem url list
-    print("Extracting poem - " + str(i+1) + "/" + str(len(lyrik_links)))
+    #print("Extracting poem - " + str(i+1) + "/" + str(len(lyrik_links)))
     r = requests.get(lyrik_links[i])
     soup = BeautifulSoup(r.content, 'html.parser')
 # extract author (h1 id="gedicht-autor")
@@ -40,6 +42,11 @@ for i in range(0, len(lyrik_links), 1):
         br.replace_with("\n" + br.text)
     p_text = poem_text.text
     #print(p_text)
-# name file as 'author - title' and save poem text in file
-    with open(d2 + p_author + ' - ' + p_title + '.txt', 'w') as f:
-        f.write(p_text.encode("UTF-8"))
+    file_name = d2 + p_author + ' - ' + p_title + '.txt'
+    if not os.path.exists(file_name):
+    # name file as 'author - title' and save poem text in file
+        with open(file_name, 'w') as f:
+            f.write(p_text.encode("UTF-8"))
+            #print("Poem saved!")
+    #else:
+        #print("The file already exists!")
