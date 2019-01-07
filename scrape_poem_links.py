@@ -10,7 +10,7 @@ s = requests.Session()
 s.get(setitems100)
 
 # Maximum pages
-num_max = 27
+num_max = # Add how many pages you want to scrape: 1 page includes 100 items
 
 # Empty list for the links
 lyrik_links = []
